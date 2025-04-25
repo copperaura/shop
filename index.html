@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CopperAura | Copper Pot, Panai & Vessels Online</title>
+  <link rel="icon" type="image/x-icon" href="./assets/fav.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(90deg, #f6e7de 0%, #f3c8a1 100%);
+      margin: 0;
+      padding: 0;
+    }
+    .banner {
+      width: 97.9%;
+      height: 100vh;
+      background-image: url('./assets/homepage.jpg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5em;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      padding: 20px;
+    }
+    @media (max-width: 1024px) {
+      .banner { height: 80vh; font-size: 2em; padding: 15px; }
+    }
+    @media (max-width: 768px) {
+      .banner { height: 70vh; font-size: 1.8em; padding: 10px; }
+    }
+    @media (max-width: 480px) {
+      .banner {
+        background-image: url('./assets/homepagemobile.jpg');
+        height: 78vh;
+        width: 95%;
+        font-size: 1.5em;
+        padding: 10px;
+      }
+    }
+    .content {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .product-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+    }
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+    .carousel-images {
+      display: flex;
+      transition: transform 0.3s ease-in-out;
+    }
+    .carousel img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      flex-shrink: 0;
+      cursor: zoom-in;
+      border-radius: 10px;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgb(0 0 0 / 0%);
+      color: rgba(0, 0, 0, 0.8);
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .carousel-button.left { left: 10px; }
+    .carousel-button.right { right: 10px; }
+    .product-title {
+      font-size: 1.4em;
+      font-weight: 600;
+      margin-top: 15px;
+      color: #B87333;
+    }
+    .size-buttons {
+      margin-top: 15px;
+    }
+    .size-button {
+      padding: 8px 14px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      cursor: pointer;
+      background: #f5f5f5;
+      transition: background 0.2s ease;
+      color: #B87333;
+    }
+    .size-button:hover, .size-button.active {
+      background: #B87333;
+      color: #fff;
+    }
+    .price {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 15px;
+      color: #B87333;
+    }
+    .weight {
+      font-size: 0.95em;
+      margin-top: 5px;
+      color: #B87333;
+    }
+    .add-to-cart {
+      background: #B87333;
+      color: white;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 30px;
+      margin-top: 15px;
+      display: inline-block;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .zoom-modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      align-items: center;
+      justify-content: center;
+    }
+    .zoom-modal img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+    .footer {
+      background: linear-gradient(90deg, #f3c8a1 0%, #f3c8a1 100%);
+      color: #fff;
+      padding: 30px 10px;
+      text-align: center;
+    }
+    .footer a {
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    .social-icon {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      color: white;
+      text-align: center;
+      line-height: 31px;
+      font-size: 22px;
+      margin: 0 8px;
+      transition: transform 0.3s ease;
+    }
+    .social-icon:hover {
+      transform: scale(1.1);
+    }
+    .phone { background: linear-gradient(135deg, #2570d3, #7bb8e0); }
+    .twitter { background: linear-gradient(135deg, #1DA1F2, #0d8ddb); }
+    .instagram { background: linear-gradient(135deg, #feda75, #d62976, #962fbf, #4f5bd5); }
+    .facebook { background: linear-gradient(135deg, #1877F2, #0b5bd3); }
+    .pinterest { background: linear-gradient(135deg, #E60023, #b3001b); }
+    .location { background: linear-gradient(135deg, #4b25d3, #128C7E); }
+    .whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
+  </style>
+
+  <script>
+    const products = [    
+       {
+        title: 'பானை ',
+        images: ['./assets/copper-pots-1.jpg'],
+        prices: { Small: 1699, Medium: 1999, Large: 2299 },
+        weights: { Small: '1.1kg', Medium: '1.3kg', Large: '1.5kg' }
+      },
+      {
+        title: 'Copper பானை  ',
+        images: ['./assets/copper-pots-1.jpg'],
+        prices: { Small: 2499, Medium: 2799, Large: 3199 },
+        weights: { Small: '1.5kg', Medium: '1.7kg', Large: '1.9kg' }
+      },
+      { 
+        title: 'MS Copper பானை/குடம்  ',
+        images: ['./assets/copper-pots-2.jpg'],
+        prices: { Small: 2299, Medium: 2799, Large: 3199 },
+        weights: { Small: '1.4kg', Medium: '1.7kg', Large: '1.9kg' }
+      },
+      {
+        title: 'கடலூர் MS பானை',
+        images: ['./assets/copper-pots-3.jpg'],
+        prices: { Small: 2499, Medium: 2799, Large: 3199 },
+        weights: { Small: '1.5kg', Medium: '1.7kg', Large: '1.9kg' }
+      },
+      {
+        title: 'தெக்கலூர் பானை',
+        images: ['./assets/copper-pots-4.jpg'],
+        prices: { Small: 2499, Medium: 2799, Large: 3199 },
+        weights: { Small: '1.5kg', Medium: '1.7kg', Large: '1.9kg' }
+      },
+      {
+        title: 'சருவம் Copper பானை ',
+        images: ['./assets/copper-pots-1.jpg'],
+        prices: { Small: 2299, Medium: 2799, Large: 3199 },
+        weights: { Small: '1.4kg', Medium: '1.7kg', Large: '1.9kg' }
+      },
+
+    ];
+
+    function slideCarousel(index, direction) {
+      const carousel = document.querySelector(`#carousel-${index} .carousel-images`);
+      const total = carousel.children.length;
+      let current = parseInt(carousel.dataset.index) || 0;
+      current += direction;
+      if (current < 0) current = total - 1;
+      if (current >= total) current = 0;
+      carousel.style.transform = `translateX(-${current * 100}%)`;
+      carousel.dataset.index = current;
+    }
+
+    function zoomImage(src) {
+      document.getElementById('zoomModal').style.display = 'flex';
+      document.getElementById('modalImg').src = src;
+    }
+
+    function closeZoom() {
+      document.getElementById('zoomModal').style.display = 'none';
+    }
+
+    function selectSize(button, size, index) {
+      const card = button.closest('.product-card');
+      const buttons = card.querySelectorAll('.size-button');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      const priceElement = card.querySelector('.price');
+      const weightElement = card.querySelector('.weight');
+      priceElement.textContent = `₹${products[index].prices[size]}`;
+      weightElement.textContent = `Weight: ${products[index].weights[size]}`;
+    }
+
+    function sendOrderToWhatsApp(index) {
+      const product = products[index];
+      const card = document.querySelectorAll('.product-card')[index];
+      const activeSizeBtn = card.querySelector('.size-button.active');
+      const selectedSize = activeSizeBtn ? activeSizeBtn.textContent : 'Small';
+      const selectedPrice = product.prices[selectedSize];
+      const selectedWeight = product.weights[selectedSize];
+      const productName = product.title;
+
+      const message = `Hi, I'm interested in ordering:\n\nProduct: ${productName}\nSize: ${selectedSize}\nWeight: ${selectedWeight}\nPrice: ₹${selectedPrice}`;
+      const whatsappLink = `https://wa.me/9047571405?text=${encodeURIComponent(message)}`;
+      window.open(whatsappLink, '_blank');
+    }
+
+    window.onload = () => {
+      const container = document.querySelector('.product-container');
+      products.forEach((product, i) => {
+        const images = product.images.map(img => `<img src="${img}" onclick="zoomImage('${img}')" alt="${product.title}">`).join('');
+        container.innerHTML += `
+          <div class="product-card">
+            <div class="carousel" id="carousel-${i}">
+              <div class="carousel-images" data-index="0">${images}</div>
+              <button class="carousel-button left" onclick="slideCarousel(${i}, -1)">&#10094;</button>
+              <button class="carousel-button right" onclick="slideCarousel(${i}, 1)">&#10095;</button>
+            </div>
+            <div class="product-title">${product.title}</div>
+            <div class="size-buttons">
+              <button class="size-button active" onclick="selectSize(this, 'Small', ${i})">Small</button>
+              <button class="size-button" onclick="selectSize(this, 'Medium', ${i})">Medium</button>
+              <button class="size-button" onclick="selectSize(this, 'Large', ${i})">Large</button>
+            </div>
+            <div class="price">₹${product.prices.Small}</div>
+            <div class="weight">Weight: ${product.weights.Small}</div>
+            <button class="add-to-cart" onclick="sendOrderToWhatsApp(${i})">ORDER NOW</button>
+          </div>
+        `;
+      });
+    };
+  </script>
+</head>
+
+<body>
+  <div class="banner"></div>
+
+  <div class="content">
+    <div class="product-container"></div>
+  </div>
+
+  <div id="zoomModal" class="zoom-modal" onclick="closeZoom()">
+    <img id="modalImg" src="" alt="Zoomed Image">
+  </div>
+
+  <div class="footer">
+    <p style="color: #4A0404; font-weight: bold;">@vethrivel traders</p>
+    <p style="color: #4A0404; font-weight: bold;">No 6, Copper Street, Coimbatore - 641652</p>
+    <a href="" target="_blank" class="social-icon location"><i class="fas fa-map-marker-alt"></i></a>
+    <a href="tel:+919047571405" class="social-icon phone"><i class="fas fa-phone-alt"></i></a>
+    <a href="https://wa.me/9047571405" target="_blank" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://x.com/copperaura" target="_blank" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
+    <a href="https://www.instagram.com/copperaura.official//" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.facebook.com/copperauraa" target="_blank" class="social-icon facebook"><i class="fab fa-facebook"></i></a>
+    <a href="https://in.pinterest.com/copperaura/" target="_blank" class="social-icon pinterest"><i class="fab fa-pinterest"></i></a>
+  </div>
+</body>
+</html>
